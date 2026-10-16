@@ -60,7 +60,7 @@ export function createCity(options: WorldOptions): City {
       center: rangeOf(rand, -half * 0.6, half * 0.6),
       radius: rangeOf(rand, extent * 0.28, extent * 0.55),
       minH: rangeOf(rand, 8, 30),
-      maxH: rangeOf(rand, 45, 130),
+      maxH: rangeOf(rand, 40, 105),
       palette: [pickOf(rand, NEON), pickOf(rand, NEON)],
     });
   }
@@ -73,8 +73,16 @@ export function createCity(options: WorldOptions): City {
   group.add(ground);
 
   const shellGeo = track(new THREE.BoxGeometry(1, 1, 1));
+  const windows = track(makeWindowTexture());
   const shellMat = track(
-    new THREE.MeshStandardMaterial({ color: 0x4b4066, roughness: 0.45, metalness: 0.4 }),
+    new THREE.MeshStandardMaterial({
+      color: 0x4b4066,
+      roughness: 0.5,
+      metalness: 0.35,
+      emissive: 0xffc46b,
+      emissiveIntensity: 0.85,
+      emissiveMap: windows,
+    }),
   );
   const shell = new THREE.InstancedMesh(shellGeo, shellMat, blocks * blocks);
   const matrix = new THREE.Matrix4();
@@ -86,8 +94,8 @@ export function createCity(options: WorldOptions): City {
       const x = (i + 0.5) * spacing - half;
       const z = (j + 0.5) * spacing - half;
       const height = heightAt(districts, x, z, rand);
-      const width = spacing * rangeOf(rand, 0.5, 0.74);
-      const depth = spacing * rangeOf(rand, 0.5, 0.74);
+      const width = spacing * rangeOf(rand, 0.38, 0.56);
+      const depth = spacing * rangeOf(rand, 0.38, 0.56);
       buildings.push({ x, z, hx: width / 2, hz: depth / 2, height });
       matrix.compose(
         new THREE.Vector3(x, height / 2, z),
@@ -182,8 +190,8 @@ export function createCity(options: WorldOptions): City {
   rim.position.set(160, 70, -130);
   group.add(rim);
 
-  for (let i = 0; i < 8; i++) {
-    const light = new THREE.PointLight(pickOf(rand, NEON), 1400, 240, 2);
+  for (let i = 0; i < 5; i++) {
+    const light = new THREE.PointLight(pickOf(rand, NEON), 2200, 300, 2);
     light.position.set(
       rangeOf(rand, -half, half),
       rangeOf(rand, 10, 40),
@@ -257,4 +265,33 @@ function createSky(track: <T extends { dispose: () => void }>(item: T) => T): TH
   const sky = new THREE.Mesh(geo, mat);
   sky.name = "sky";
   return sky;
+}
+
+function makeWindowTexture(size = 256): THREE.DataTexture {
+  const data = new Uint8Array(size * size * 4);
+  for (let y = 0; y < size; y++) {
+    for (let x = 0; x < size; x++) {
+      const i = (y * size + x) * 4;
+      const u = x / size;
+      const v = y / size;
+      const col = Math.floor(u * 12);
+      const row = Math.floor(v * 18);
+      const cell = (col * 7 + row * 13 + ((col * col + row) % 5) * 3) % 23;
+      const lit = cell < 7 ? 1 : 0;
+      const edge = u % (1 / 12) < 0.16 || u % (1 / 12) > 0.84 || v % (1 / 18) < 0.22 || v % (1 / 18) > 0.78;
+      const value = edge ? 4 : lit ? 232 : 12;
+      const warm = lit ? 255 : 150;
+      data[i] = value;
+      data[i + 1] = Math.round(value * (lit ? 0.82 : 0.9));
+      data[i + 2] = Math.round(value * (lit ? 0.55 : 1));
+      data[i + 3] = warm;
+    }
+  }
+  const texture = new THREE.DataTexture(data, size, size, THREE.RGBAFormat);
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.repeat.set(3, 6);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  texture.needsUpdate = true;
+  return texture;
 }
