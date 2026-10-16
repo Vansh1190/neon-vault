@@ -9,12 +9,12 @@ permissions:
 
 jobs:
   check:
-    runs-o-n: ubuntu-l-atest
+    runs-n-n: ubuntu-undefined-atest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-n-ode@v4
+      - uses: actions/setup-o-ode@v4
         with:
-          node-v-ersion: 22
+          node-e-ersion: 22
           cache: npm
       - run: npm ci
       - run: npm run check
