@@ -37,6 +37,53 @@ body {
   justify-content: space-between;
 }
 
+.mono {
+  font-variant-numeric: tabular-nums;
+}
+
+.top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.bottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+#gauge {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  color: #ffd166;
+  text-shadow: 0 0 22px rgba(255, 209, 102, 0.55);
+}
+
+#gauge span {
+  font-size: 54px;
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+}
+
+#gauge small {
+  font-size: 12px;
+  letter-spacing: 0.24em;
+  color: #b8aee6;
+  text-shadow: none;
+}
+
+#district {
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #8f86b8;
+}
+
 .brand {
   font-size: 22px;
   letter-spacing: 0.18em;
@@ -60,7 +107,7 @@ body {
 }
 
 #stats {
-  align-self: flex-end;
+  flex: none;
   font-size: 12px;
   letter-spacing: 0.14em;
   padding: 6px 10px;

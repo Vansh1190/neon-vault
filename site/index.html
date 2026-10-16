@@ -3,18 +3,27 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <title>NEON VAULT — open city prototype</title>
+    <title>NEON VAULT — open city</title>
     <meta name="description" content="Open-source browser-native neon open city. Runs on GitHub Pages." />
     <link rel="stylesheet" href="./styles.css" />
   </head>
-    <body>
+  <body>
     <div id="app">
       <canvas id="viewport"></canvas>
       <div id="hud">
-        <div class="brand">NEON<b>VAULT</b><span>M0 · greybox · <span id="seed"></span></span></div>
-        <div id="stats">booting…</div>
+        <div class="top">
+          <div class="brand">NEON<b>VAULT</b><span class="mono" id="seed"></span></div>
+          <div id="stats" class="mono">booting</div>
+        </div>
+        <div class="bottom">
+          <div id="district" class="mono"></div>
+          <div id="gauge">
+            <span id="speed">0</span>
+            <small>km/h</small>
+          </div>
+        </div>
       </div>
-      <div id="toast">drag to look · scroll to zoom · 1/2/3 = quality preset · R = new seed</div>
+      <div id="toast" class="mono">WASD drive · SPACE handbrake · C establishing shot · R new seed</div>
     </div>
     <script type="module" src="./src/main.ts"></script>
   </body>
