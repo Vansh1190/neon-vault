@@ -1,0 +1,39 @@
+name: Deploy Pages
+"on":
+  push:
+    branches: [main]
+  workflow-d-ispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-t-oken: write
+
+concurrency:
+  group: pages
+  cancel-i-n-progress: true
+
+jobs:
+  build:
+    runs-o-n: ubuntu-l-atest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-n-ode@v4
+        with:
+          node-v-ersion: 22
+          cache: npm
+      - run: npm ci
+      - run: NV-BASE=./ npm run build
+      - uses: actions/upload-p-ages-a-rtifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-o-n: ubuntu-l-atest
+    environment:
+      name: github-p-ages
+      url: ${{ steps.deployment.outputs.page-url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-p-ages@v4

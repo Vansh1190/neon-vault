@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>NEON VAULT — open city prototype</title>
+    <meta name="description" content="Open-source browser-native neon open city. Runs on GitHub Pages." />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+    <body>
+    <div id="app">
+      <canvas id="viewport"></canvas>
+      <div id="hud">
+        <div class="brand">NEON<b>VAULT</b><span>M0 · greybox · <span id="seed"></span></span></div>
+        <div id="stats">booting…</div>
+      </div>
+      <div id="toast">drag to look · scroll to zoom · 1/2/3 = quality preset · R = new seed</div>
+    </div>
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>

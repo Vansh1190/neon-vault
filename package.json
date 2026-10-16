@@ -1,0 +1,44 @@
+{
+  "name": "neon-vault",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Open-source browser-native neon open city. Runs on GitHub Pages.",
+  "license": "MIT",
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "site",
+    "tools/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w @nv/site",
+    "capture": "npm run build && node tools/capture/capture.mjs",
+    "build": "npm run build -w @nv/site",
+    "preview": "npm run preview -w @nv/site",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "node tools/lint/run.mjs",
+    "test": "vitest run --config vite.config.ts",
+    "check": "npm run typecheck && npm run lint && npm run test && npm run build"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@types/three": "^0.186.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^9.39.5",
+    "globals": "^17.13.0",
+    "playwright": "^1.64.1",
+    "three": "^0.186.1",
+    "typescript": "^5.6.0",
+    "typescript-eslint": "^8.71.2",
+    "vite": "^6.0.0",
+    "vitest": "^2.1.9"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "allowScripts": {
+    "esbuild@0.25.12": true,
+    "esbuild@0.21.5": true
+  }
+}
